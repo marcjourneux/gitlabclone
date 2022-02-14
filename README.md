@@ -15,10 +15,15 @@ COMMANDS:
 
 GLOBAL OPTIONS:
    --access-token value, -t value  gitlab access token
+ 
    --group value, -g value         id of gitlab group
+ 
    --ssh value, -k value           relative user path for ssh key
+   
    --destination value, -d value   local path where to clone the projects (folders will be created)
+   
    --log-level value, -l value     Log level (error/warning/info/debug/trace) (default: "Info")
+   
    --help, -h                      show help (default: false)
 
 
