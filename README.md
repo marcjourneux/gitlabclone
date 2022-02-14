@@ -1,5 +1,6 @@
 # gitlabclone
-Visit groups and subgroups in Gitlab group 
+Visit groups and subgroups in Gitlab group.
+
 You need to have a valid SSH key in your user directory that is updloaded in Gitlab.
 You need an API token with read_repository and read_api right.
 
