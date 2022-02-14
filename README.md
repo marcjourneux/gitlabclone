@@ -14,6 +14,7 @@ COMMANDS:
    help, h  Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
+
    --access-token value, -t value  gitlab access token
  
    --group value, -g value         id of gitlab group
