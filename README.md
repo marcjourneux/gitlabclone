@@ -1,8 +1,10 @@
 # gitlabclone
-Visit groups and subgroups in Gitlab group.
+Visit groups and subgroups in Gitlab group, and clone them.
 
 You need to have a valid SSH key in your user directory that is updloaded in Gitlab.
 You need an API token with read_repository and read_api right.
+
+This is handy when you need to clone all projects of an org or a group at once. It can also update the existing repository, so you can track all repositories of a group or an org at once.
 
 # Usage
 NAME:
