@@ -1,5 +1,7 @@
 # gitlabclone
-Visit groups and subgroups in Gitlab group, and clone them.
+The purpose of this tool is to clone all repositories inside a gitlab group.
+
+It will visit groups and subgroups in Gitlab group, and clone them.
 
 You need to have a valid SSH key in your user directory that is updloaded in Gitlab.
 You need an API token with read_repository and read_api right.
