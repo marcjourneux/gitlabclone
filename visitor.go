@@ -7,6 +7,7 @@ import (
 	gitssh "github.com/go-git/go-git/v5/plumbing/transport/ssh"
 	logrus "github.com/sirupsen/logrus"
 	gitlab "github.com/xanzy/go-gitlab"
+	"net/url"
 	"os"
 	"os/user"
 	"path"
@@ -28,19 +29,33 @@ func exists(path string) bool {
 
 // visit all subgroup inside group
 func VisitGroup(auth transport.AuthMethod, glClient *(gitlab.Client), groupID, targetPath string) {
-
+	var groups []*gitlab.Group
 	var wg sync.WaitGroup
+	var err error
+	logr.Infof("analysing group " + groupID + "\n")
+	if len(groupID) == 0 {
+		opt := &gitlab.ListGroupsOptions{}
+		groups, _, err = glClient.Groups.ListGroups(opt)
 
-	opt := &gitlab.ListSubgroupsOptions{}
-	groups, _, err := glClient.Groups.ListSubgroups(groupID, opt)
+		if err != nil {
+			logr.Infof("error when listing groups err.\n")
+			logr.Fatal(err)
+		}
+	} else {
+		opt := &gitlab.ListSubgroupsOptions{}
+		groups, _, err = glClient.Groups.ListSubgroups(groupID, opt)
 
-	if err != nil {
-		logr.Fatal(err)
+		if err != nil {
+			logr.Infof("error when listing subgroups err.\n")
+			logr.Fatal(err)
+		}
+		logr.Infof("nb subgroup " + strconv.Itoa(len(groups)) + "\n")
 	}
 
 	for _, grp := range groups {
 		// Create the needed group folder
 		groupTargetPath := path.Join(targetPath, grp.FullPath)
+		logr.Infof("visit group " + grp.FullPath + "\n")
 		os.MkdirAll(groupTargetPath, os.ModePerm)
 
 		VisitGroup(auth, glClient, strconv.Itoa(grp.ID), targetPath)
@@ -158,7 +173,9 @@ func CloneProjects(auth transport.AuthMethod, glClient *(gitlab.Client), groupID
 
 		// List all the projects we've found so far.
 		for _, prj := range projects {
-			CloneUpdateProject(prj, auth, glClient, groupTargetPath)
+			if !prj.Archived {
+				CloneUpdateProject(prj, auth, glClient, groupTargetPath)
+			}
 		}
 
 		// Exit the loop when we've seen all pages.
@@ -172,7 +189,7 @@ func CloneProjects(auth transport.AuthMethod, glClient *(gitlab.Client), groupID
 }
 
 // GroupCloneAllProjects clones all gitlab projects in the given group and or project and it's subgroups
-func VisitAndClone(token, groupID, keyPath, targetPath string) {
+func VisitAndClone(token, domain, apipath, groupID, keyPath, targetPath string) {
 
 	// Get ssh key
 	usr, err := user.Current()
@@ -184,7 +201,15 @@ func VisitAndClone(token, groupID, keyPath, targetPath string) {
 		logr.Fatal(err)
 	}
 	// Create the gitlab client
-	glClient, err := gitlab.NewClient(token)
+	apiurl := &url.URL{
+		Scheme: "https",
+		Host:   domain,
+		Path:   apipath,
+	}
+	logr.WithFields(logrus.Fields{
+		"action": "create gitlab client",
+	}).Infof(apiurl.String())
+	glClient, err := gitlab.NewClient(token, gitlab.WithBaseURL(apiurl.String()))
 	if err != nil {
 		logr.WithFields(logrus.Fields{
 			"action": "get gitlab client",

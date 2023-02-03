@@ -12,11 +12,14 @@ var (
 	targetPath string
 	level      string
 	keyPath    string
+	domain     string
+	apipath    string
 	logr       *logrus.Logger
 )
 
 func main() {
 	logr = logrus.New()
+	apipath = "gitlab/v4"
 	app := &cli.App{
 		Name:   "gitlabclone",
 		Usage:  "clone all the gitlab projects and subprojects below a group",
@@ -31,21 +34,35 @@ func main() {
 				Required:    true,
 			},
 			&cli.StringFlag{
+				Name:        "api-root-domain",
+				Aliases:     []string{"r"},
+				Usage:       "gitlab domain (default gitlab.com)", //https://dev.truckonline.pro/gitlab/api/v4
+				Value:       "gitlab.com",
+				Destination: &domain,
+			},
+			&cli.StringFlag{
+				Name:        "api-path",
+				Aliases:     []string{"a"},
+				Usage:       "path to api for gitlab", //https://dev.truckonline.pro/gitlab/api/v4
+				Value:       "api/v4",
+				DefaultText: "api/v4",
+				Destination: &apipath,
+			},
+			&cli.StringFlag{
 				Name:        "group",
 				Aliases:     []string{"g"},
 				Value:       "",
 				Usage:       "id of gitlab group",
 				Destination: &group,
-				Required:    true,
 			},
 			&cli.StringFlag{
-				Name:        "ssh key relative",
+				Name:        "sshkey-relative-path",
 				Aliases:     []string{"k"},
 				Usage:       "relative user path for ssh key",
 				Destination: &keyPath,
 			},
 			&cli.StringFlag{
-				Name:        "destination path",
+				Name:        "destination-path",
 				Aliases:     []string{"d"},
 				Usage:       "local path where to clone the project",
 				Destination: &targetPath,
@@ -75,8 +92,8 @@ func clone(c *cli.Context) error {
 		return err
 	}
 	logr.SetLevel(l)
-
-	VisitAndClone(token, group, keyPath, targetPath)
+	logr.Info("domain :" + domain)
+	VisitAndClone(token, domain, apipath, group, keyPath, targetPath)
 	logr.Info("Cloning OK")
 
 	return nil
