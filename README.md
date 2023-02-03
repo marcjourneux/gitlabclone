@@ -14,12 +14,13 @@ COMMANDS:
    help, h  Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
-   --access-token value, -t value  gitlab access token
-   --domain value, -d value        root domain (endpoint will be https://domain/api/v4)
-   --group value, -g value         id of gitlab group (can be empty for retrieving all groups)
-   --ssh value, -k value           relative user path for ssh key (i.e. .ssh/id_rsa)
-   --destination value, -d value   local path where to clone the projects (folders will be created)
-   --log-level value, -l value     Log level (error/warning/info/debug/trace) (default: "Info")
-   --help, -h                      show help (default: false)
+   --token , -t                     gitlab access token
+   --domain , -d                    root domain (default endpoint will be https://domain/api/v4)
+   --api-path, -a                   endpoint path for the gitlab domain
+   --group , -g                     id of gitlab group (can be empty for retrieving all groups)
+   --ssh-relative-path , -k         relative user path for ssh key (i.e. .ssh/id_rsa)
+   --destination , -d               local path where to clone the projects (folders will be created)
+   --log-level , -l                 Log level (error/warning/info/debug/trace) (default: "Info")
+   --help, -h                       show help (default: false)
 
 

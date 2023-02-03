@@ -26,7 +26,7 @@ func main() {
 		Action: clone,
 		Flags: []cli.Flag{
 			&cli.StringFlag{
-				Name:        "access-token",
+				Name:        "token",
 				Aliases:     []string{"t"},
 				Value:       "",
 				Usage:       "gitlab access token",
@@ -34,7 +34,7 @@ func main() {
 				Required:    true,
 			},
 			&cli.StringFlag{
-				Name:        "api-root-domain",
+				Name:        "domain",
 				Aliases:     []string{"r"},
 				Usage:       "gitlab domain (default gitlab.com)", //https://dev.truckonline.pro/gitlab/api/v4
 				Value:       "gitlab.com",
@@ -62,7 +62,7 @@ func main() {
 				Destination: &keyPath,
 			},
 			&cli.StringFlag{
-				Name:        "destination-path",
+				Name:        "destination",
 				Aliases:     []string{"d"},
 				Usage:       "local path where to clone the project",
 				Destination: &targetPath,
