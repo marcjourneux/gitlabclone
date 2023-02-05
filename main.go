@@ -70,7 +70,7 @@ func main() {
 			&cli.StringFlag{
 				Name:        "log-level",
 				Aliases:     []string{"l"},
-				Value:       "Info",
+				Value:       "info",
 				Usage:       "Log level (error/warning/info/debug/trace)",
 				Destination: &level,
 			},
