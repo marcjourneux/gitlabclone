@@ -5,7 +5,7 @@ You need to have a valid SSH key in your user directory that is updloaded in Git
 You need an API token with read_repository and read_api right.  
   
 # Usage
-## #NAME:
+## NAME:
    gitlabclone - clone all the projects and subprojects below a group or project
 
 ## USAGE:   
@@ -19,7 +19,7 @@ You need an API token with read_repository and read_api right.
    --token  _gitlab access token_  the access token for accessing the git gitlab repository through https  
 
    -r domain    
-   --domain _gitlab domain_ root domain of the gitlab repository (default endpoint will then be https://domain/api/v4) 
+   --domain _gitlab domain_ root domain of the gitlab repository (default endpoint will then be `https://domain/api/v4`) 
  
    -a api/v4 root path  
    --api-path _gitlab api v4 root path_  root endpoint path for the gitlab domain  
